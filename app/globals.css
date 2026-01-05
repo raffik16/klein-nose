@@ -121,6 +121,7 @@ body {
   border-radius: 100px;
   position: relative;
   overflow: visible;
+  margin-bottom: 1.25rem; /* Space for markers below */
 }
 
 .timeline-progress {
@@ -132,12 +133,13 @@ body {
 
 .timeline-markers {
   position: absolute;
-  top: 14px;
+  top: 12px;
   left: 0;
   right: 0;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: rgba(255, 255, 255, 0.6);
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .timeline-markers .marker {
@@ -160,6 +162,9 @@ body {
   gap: 0.5rem;
   flex-wrap: wrap;
   justify-content: center;
+  row-gap: 0.5rem;
+  max-width: 100%;
+  padding: 0 0.5rem;
 }
 
 /* Clean button base */

@@ -54,13 +54,14 @@ export default function Home() {
   const isMinSize = noseScale <= 0.1;
 
   const getPhaseLabel = () => {
-    if (noseScale >= 2.0) return "KLEIN'S LEGENDARY NOSE";
-    if (noseScale >= 1.5) return "Enormous";
-    if (noseScale >= 1.0) return "Fully Grown";
-    if (noseScale >= 0.7) return "Maturing";
-    if (noseScale >= 0.5) return "Growing";
-    if (noseScale >= 0.3) return "Young";
-    return "Tiny";
+    if (noseScale >= 2.0) return "ABSOLUTE UNIT";
+    if (noseScale >= 1.5) return "Entering Orbit";
+    if (noseScale >= 1.2) return "Can Smell the Future";
+    if (noseScale >= 1.0) return "Honker Status";
+    if (noseScale >= 0.7) return "Sniffing Potential";
+    if (noseScale >= 0.5) return "Lil' Sniffer";
+    if (noseScale >= 0.3) return "Baby Boop";
+    return "Microscopic";
   };
 
   return (
@@ -115,13 +116,13 @@ export default function Home() {
           />
           <div className="timeline-markers">
             <span className="marker" style={{ left: "15%" }}>
-              Young
+              Smol
             </span>
             <span className="marker" style={{ left: "50%" }}>
-              Grown
+              Chonk
             </span>
             <span className="marker" style={{ left: "100%" }}>
-              Klein
+              UNIT
             </span>
           </div>
         </div>
@@ -176,7 +177,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.7 }}
           >
-            Growing automatically...
+            Nose is doing its thing...
           </motion.p>
         )}
       </footer>
@@ -196,7 +197,7 @@ export default function Home() {
               animate={{ scale: 1, rotate: 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
             >
-              MAXIMUM KLEIN
+              PEAK SCHNOZ ACHIEVED
             </motion.div>
           </motion.div>
         )}
