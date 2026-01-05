@@ -12,15 +12,191 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+}
+
+/* Main container - CSS Grid for perfect centering */
+.spa-container {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: linear-gradient(165deg, #ffecd2 0%, #fcb69f 50%, #ee9ca7 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Header section */
+.spa-header {
+  padding: 2rem 2rem 0;
+  text-align: center;
+}
+
+.spa-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.02em;
+}
+
+.spa-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 0.5rem;
+  font-weight: 400;
+}
+
+/* Nose section - perfectly centered */
+.nose-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+}
+
+/* Nose container sizing */
+.nose-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nose-svg {
+  width: 100%;
+  height: auto;
+  max-height: 60vh;
+}
+
+/* Size indicator */
+.size-indicator {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 1.25rem;
+  border-radius: 100px;
+  backdrop-filter: blur(10px);
+  margin-bottom: 1rem;
+}
+
+/* Footer / Controls section */
+.spa-footer {
+  padding: 1.5rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Controls container */
+.controls {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Clean button base */
+.btn {
+  padding: 0.875rem 1.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  backdrop-filter: blur(12px);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* Shrink button - frosted glass */
+.btn-shrink {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-shrink:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Grow button - frosted glass */
+.btn-grow {
+  background: rgba(255, 255, 255, 0.25);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-grow:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Klein's Nose button - gold accent */
+.btn-klein {
+  background: linear-gradient(135deg, #d4a574 0%, #c9956c 50%, #b8845d 100%);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(180, 120, 80, 0.3);
+  padding: 0.875rem 2rem;
+}
+
+.btn-klein:hover {
+  box-shadow: 0 6px 28px rgba(180, 120, 80, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-klein:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Klein active glow state */
+.btn-klein.active {
+  box-shadow: 0 0 30px rgba(212, 165, 116, 0.6);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .spa-title {
+    font-size: 2rem;
+  }
+
+  .controls {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .btn {
+    flex: 1;
+    min-width: 100px;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
 }
