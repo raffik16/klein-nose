@@ -4,18 +4,29 @@ import { motion } from "motion/react";
 
 interface NoseProps {
   scale: number;
+  isKleinMode?: boolean;
 }
 
-export default function Nose({ scale }: NoseProps) {
+export default function Nose({ scale, isKleinMode = false }: NoseProps) {
   return (
     <motion.div
       className="nose-container"
-      animate={{ scale }}
+      animate={{
+        scale,
+        rotate: isKleinMode ? [0, -1, 1, 0] : 0,
+      }}
       transition={{
-        type: "spring",
-        stiffness: 100,
-        damping: 18,
-        mass: 1,
+        scale: {
+          type: "spring",
+          stiffness: 80,
+          damping: 15,
+          mass: 1.2,
+        },
+        rotate: {
+          duration: 2,
+          repeat: isKleinMode ? Infinity : 0,
+          ease: "easeInOut",
+        },
       }}
     >
       <svg
@@ -30,6 +41,14 @@ export default function Nose({ scale }: NoseProps) {
             <stop offset="30%" stopColor="#e8b4a8" />
             <stop offset="70%" stopColor="#dda596" />
             <stop offset="100%" stopColor="#d49888" />
+          </linearGradient>
+
+          {/* Klein mode golden skin */}
+          <linearGradient id="skinKlein" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ffe4b5" />
+            <stop offset="30%" stopColor="#ffd700" />
+            <stop offset="70%" stopColor="#daa520" />
+            <stop offset="100%" stopColor="#b8860b" />
           </linearGradient>
 
           {/* Bridge highlight gradient */}
@@ -66,25 +85,45 @@ export default function Nose({ scale }: NoseProps) {
             <stop offset="100%" stopColor="transparent" />
           </radialGradient>
 
-          {/* Under-nose shadow */}
-          <linearGradient id="underShadow" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="rgba(100,60,50,0.3)" />
+          {/* Klein glow effect */}
+          <radialGradient id="kleinGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="rgba(255,215,0,0.3)" />
             <stop offset="100%" stopColor="transparent" />
-          </linearGradient>
-
-          {/* Soft blur filter for edges */}
-          <filter id="softEdge" x="-10%" y="-10%" width="120%" height="120%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="0.5" />
-          </filter>
+          </radialGradient>
 
           {/* Drop shadow filter */}
           <filter id="noseShadow" x="-20%" y="-10%" width="140%" height="130%">
             <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="rgba(0,0,0,0.15)" />
           </filter>
+
+          {/* Klein mode glow filter */}
+          <filter id="kleinFilter" x="-50%" y="-50%" width="200%" height="200%">
+            <feDropShadow dx="0" dy="0" stdDeviation="15" floodColor="rgba(255,215,0,0.5)" />
+          </filter>
         </defs>
 
+        {/* Klein mode background glow */}
+        {isKleinMode && (
+          <motion.ellipse
+            cx="100"
+            cy="140"
+            rx="120"
+            ry="150"
+            fill="url(#kleinGlow)"
+            animate={{
+              opacity: [0.3, 0.6, 0.3],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        )}
+
         {/* Main nose group with shadow */}
-        <g filter="url(#noseShadow)">
+        <g filter={isKleinMode ? "url(#kleinFilter)" : "url(#noseShadow)"}>
           {/* Base nose shape - main body */}
           <path
             d="M 100 10
@@ -99,7 +138,7 @@ export default function Nose({ scale }: NoseProps) {
                C 135 140, 132 100, 128 60
                C 125 30, 115 10, 100 10
                Z"
-            fill="url(#skinBase)"
+            fill={isKleinMode ? "url(#skinKlein)" : "url(#skinBase)"}
           />
 
           {/* Left alar wing (nostril wing) */}
@@ -111,7 +150,7 @@ export default function Nose({ scale }: NoseProps) {
                C 58 220, 50 210, 55 195
                C 58 185, 58 175, 58 170
                Z"
-            fill="url(#skinBase)"
+            fill={isKleinMode ? "url(#skinKlein)" : "url(#skinBase)"}
           />
 
           {/* Right alar wing (nostril wing) */}
@@ -123,7 +162,7 @@ export default function Nose({ scale }: NoseProps) {
                C 142 220, 150 210, 145 195
                C 142 185, 142 175, 142 170
                Z"
-            fill="url(#skinBase)"
+            fill={isKleinMode ? "url(#skinKlein)" : "url(#skinBase)"}
           />
         </g>
 
@@ -181,7 +220,7 @@ export default function Nose({ scale }: NoseProps) {
           fill="url(#tipHighlight)"
         />
 
-        {/* Left nostril - teardrop shape */}
+        {/* Left nostril - breathing animation */}
         <motion.path
           d="M 65 225
              C 55 228, 48 235, 50 242
@@ -193,18 +232,18 @@ export default function Nose({ scale }: NoseProps) {
           animate={{
             d: [
               "M 65 225 C 55 228, 48 235, 50 242 C 52 248, 60 250, 70 248 C 78 246, 82 240, 80 234 C 78 228, 72 224, 65 225 Z",
-              "M 63 225 C 52 228, 45 236, 47 243 C 50 250, 59 252, 70 249 C 79 247, 84 240, 82 233 C 79 227, 71 223, 63 225 Z",
+              "M 63 224 C 52 227, 44 235, 46 243 C 49 250, 58 253, 71 250 C 80 248, 85 241, 83 234 C 80 227, 72 222, 63 224 Z",
               "M 65 225 C 55 228, 48 235, 50 242 C 52 248, 60 250, 70 248 C 78 246, 82 240, 80 234 C 78 228, 72 224, 65 225 Z",
             ],
           }}
           transition={{
-            duration: 0.5,
+            duration: 3,
+            repeat: Infinity,
             ease: "easeInOut",
           }}
-          key={`left-nostril-${scale}`}
         />
 
-        {/* Right nostril - teardrop shape */}
+        {/* Right nostril - breathing animation */}
         <motion.path
           d="M 135 225
              C 145 228, 152 235, 150 242
@@ -216,15 +255,15 @@ export default function Nose({ scale }: NoseProps) {
           animate={{
             d: [
               "M 135 225 C 145 228, 152 235, 150 242 C 148 248, 140 250, 130 248 C 122 246, 118 240, 120 234 C 122 228, 128 224, 135 225 Z",
-              "M 137 225 C 148 228, 155 236, 153 243 C 150 250, 141 252, 130 249 C 121 247, 116 240, 118 233 C 121 227, 129 223, 137 225 Z",
+              "M 137 224 C 148 227, 156 235, 154 243 C 151 250, 142 253, 129 250 C 120 248, 115 241, 117 234 C 120 227, 128 222, 137 224 Z",
               "M 135 225 C 145 228, 152 235, 150 242 C 148 248, 140 250, 130 248 C 122 246, 118 240, 120 234 C 122 228, 128 224, 135 225 Z",
             ],
           }}
           transition={{
-            duration: 0.5,
+            duration: 3,
+            repeat: Infinity,
             ease: "easeInOut",
           }}
-          key={`right-nostril-${scale}`}
         />
 
         {/* Columella (center divider between nostrils) */}
@@ -235,7 +274,7 @@ export default function Nose({ scale }: NoseProps) {
              C 105 238, 103 235, 100 235
              C 97 235, 95 238, 95 242
              Z"
-          fill="url(#skinBase)"
+          fill={isKleinMode ? "url(#skinKlein)" : "url(#skinBase)"}
         />
 
         {/* Columella shadow */}
